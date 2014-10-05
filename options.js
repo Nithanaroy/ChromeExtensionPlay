@@ -26,7 +26,15 @@ $(function() {
 		chrome.storage.sync.set({
 			'total': 0
 		}, function() {
-			close(); // closes the tab
+			var opt = {
+				type: "basic",
+				title: "Total reset",
+				message: "Total has been reset to 0",
+				iconUrl: 'icon.png'
+			}
+			chrome.notifications.create('reset', opt, function() {
+				
+			});
 		});
 	});
 });

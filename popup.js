@@ -6,7 +6,7 @@ $(function() {
 	});
 
 	$("#addAmount").click(function() {
-		chrome.storage.sync.get('total', function(items) {
+		chrome.storage.sync.get(['goal', 'total'], function(items) {
 			var new_total = 0;
 			if (items.total) {
 				new_total = parseInt(items.total);
@@ -25,6 +25,21 @@ $(function() {
 			// Update UI
 			$("#total").text(new_total);
 			$("#amount").val("");
+
+			// Goal reached notification
+			var goal = parseInt(items.goal);
+			
+			if (new_total >= goal) {
+				var opt = {
+					type: "basic",
+					title: "Goal reached",
+					message: "Yayee!!",
+					iconUrl: 'icon.png'
+				}
+				chrome.notifications.create('goal_reached', opt, function() {
+
+				});
+			}
 		});
 	});
 });
