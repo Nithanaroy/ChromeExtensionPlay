@@ -1,10 +1,8 @@
 $(function() {
 
-	chrome.storage.sync.get('total', function(items) {
-		var new_total = 0;
-		if (items.total) {
-			$("#total").text(items.total);
-		}
+	chrome.storage.sync.get(['total', 'goal'], function(items) {
+		$("#total").text(items.total);
+		$("#goal").text(items.goal);
 	});
 
 	$("#addAmount").click(function() {
