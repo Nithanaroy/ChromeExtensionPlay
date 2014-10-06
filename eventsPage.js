@@ -6,3 +6,29 @@ chrome.storage.onChanged.addListener(function(changes) {
 		'text': changes.total.newValue.toString()
 	})
 })
+
+var menuItem = {
+	"id": "addProtein",
+	"title": "Add Protein",
+	"contexts": ["selection"]
+};
+
+chrome.contextMenus.create(menuItem);
+
+chrome.contextMenus.onClicked.addListener(function(clickData) {
+
+	console.log(clickData.menuItemId, clickData.selectionText);
+
+	// chceck if it is our menu item using the id set above
+	if (clickData.menuItemId == 'addProtein' && clickData.selectionText) {
+		var intRegExp = '/\d+$/';
+		if (intRegExp.text(clickData.selectionText)) {
+			chrome.storage.sync.get('total', function(items) {
+				var newTotal = parseInt(items.total) || 0;
+				newTotal += parseInt(clickData.selectionText);
+
+				chrome.storage.sync.set('total', newTotal);
+			})
+		};
+	};
+})
