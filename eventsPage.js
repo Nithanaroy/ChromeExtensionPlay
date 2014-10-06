@@ -21,13 +21,13 @@ chrome.contextMenus.onClicked.addListener(function(clickData) {
 
 	// chceck if it is our menu item using the id set above
 	if (clickData.menuItemId == 'addProtein' && clickData.selectionText) {
-		var intRegExp = '/\d+$/';
-		if (intRegExp.text(clickData.selectionText)) {
+		var intRegExp = new RegExp('\\d+$');
+		if (intRegExp.test(clickData.selectionText)) {
 			chrome.storage.sync.get('total', function(items) {
 				var newTotal = parseInt(items.total) || 0;
 				newTotal += parseInt(clickData.selectionText);
 
-				chrome.storage.sync.set('total', newTotal);
+				chrome.storage.sync.set({'total': newTotal});
 			})
 		};
 	};
